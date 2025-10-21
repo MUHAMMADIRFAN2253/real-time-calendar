@@ -1,0 +1,623 @@
+/* =========================================
+   ROOT VARIABLES
+   ========================================= */
+:root {
+    --primary-color: #000;
+    --secondary-color: #006400;
+    --body-color: #f4f4f9;
+    --container-color: #fff;
+    --container-shadow: rgba(0, 0, 0, 0.1);
+    --clock-text-color: #fff;
+    --control-bg: #232323;
+    --control-label-text: #fff;
+    --control-select-bg: #fff;
+    --control-select-text: #000;
+    --control-select-border: #00eb00;
+    --popup-bg: #fff;
+    --popup-text-color: #000;
+    --popup-hover-bg: #006400;
+    --popup-hover-text-color: #fff;
+    --option-border: #ced4da;
+    --calendar-header-text-color: #fff;
+    --calendar-header-button: #fff;
+    --calendar-header-button-hover: rgba(255, 255, 255, 0.15);
+    --calendar-th: #ddd;
+    --calendar-th-text-color: #333;
+    --calendar-tbody: #000;
+    --calendar-border: #ddd;
+    --today: #fff;
+    --today-button-hover: #d18d00;
+    --highlight-color: #ffa500;
+}
+
+/* =========================================
+   DARK MODE ROOT VARIABLES
+   ========================================= */
+body.dark-mode {
+    --primary-color: #fff;
+    --secondary-color: #00eb00;
+    --body-color: #1e1e1e;
+    --container-color: #000;
+    --container-shadow: rgba(255, 255, 255, 0.1);
+    --clock-text-color: #000;
+    --control-bg: #e3e3e3;
+    --control-label-text: #000;
+    --control-select-bg: #000;
+    --control-select-text: #fff;
+    --control-select-border: #00c400;
+    --popup-bg: #000;
+    --popup-text-color: #fff;
+    --popup-hover-bg: #00eb00;
+    --popup-hover-text-color: #000;
+    --option-border: #ced4da;
+    --calendar-header-text-color: #000;
+    --calendar-header-button: #000;
+    --calendar-header-button-hover: rgba(0, 0, 0, 0.15);
+    --calendar-th: #333;
+    --calendar-th-text-color: #ddd;
+    --calendar-tbody: #fff;
+    --calendar-border: #333;
+    --today: #000;
+    --today-button-hover: #e6b800;
+    --highlight-color: #ffcc00;
+}
+
+/* =========================================
+   GLOBAL STYLES
+   ========================================= */
+body {
+    /* Display & Positioning */
+    display: flex;
+    justify-content: center;
+
+    /* Box Model */
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 10px;
+    box-sizing: border-box;
+
+    /* Typography */
+    font-family: Arial, sans-serif;
+
+    /* Visuals */
+    background-color: var(--body-color);
+
+    /* Animation */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* =========================================
+   CONTAINER LAYOUT
+   ========================================= */
+.container {
+    /* Box Model */
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+
+    /* Visuals */
+    background: var(--container-color);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px var(--container-shadow);
+
+    /* Animation */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* =========================================
+   CLOCK DISPLAY
+   ========================================= */
+.clock-display {
+    /* Display & Positioning */
+    text-align: center;
+
+    /* Box Model */
+    margin-bottom: 20px;
+    padding: 10px;
+
+    /* Typography */
+    color: var(--clock-text-color);
+
+    /* Visuals */
+    background-color: var(--primary-color);
+    border-radius: 5px;
+
+    /* Animation */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#real-time-clock {
+    /* Typography */
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+#clock-zone-name {
+    /* Box Model */
+    margin-top: 5px;
+
+    /* Typography */
+    font-size: 0.95em;
+
+    /* Visuals */
+    opacity: 0.8;
+}
+
+/* =========================================
+   CONTROLS (TIMEZONE & LANGUAGE)
+   ========================================= */
+.controls {
+    /* Display & Positioning */
+    display: flex;
+    justify-content: space-around;
+
+    /* Box Model */
+    margin-bottom: 20px;
+    padding: 10px;
+    gap: 15px;
+
+    /* Visuals */
+    background-color: var(--control-bg);
+    border-radius: 5px;
+
+    /* Animation */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.control-group {
+    /* Display & Positioning */
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.control-group label {
+    /* Box Model */
+    margin-bottom: 5px;
+
+    /* Typography */
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--control-label-text);
+}
+
+.control-group select {
+    /* Box Model */
+    width: 100%;
+    padding: 8px;
+    border: 2px ridge var(--control-select-border);
+    box-sizing: border-box;
+
+    /* Typography */
+    color: var(--control-select-text);
+
+    /* Visuals */
+    background-color: var(--control-select-bg);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* =========================================
+   DARK MODE STYLES
+   ========================================= */
+#dark-mode-toggle {
+    /* Display & Positioning */
+    position: absolute;
+
+    /* Box Model */
+    width: 0;
+    height: 0;
+
+    /* Visuals */
+    opacity: 0;
+}
+
+.dark-mode-control label {
+    /* Display & Positioning */
+    display: flex;
+    justify-content: center;
+
+    /* Box Model */
+    width: 130px;
+    margin: 0 auto 15px auto;
+    padding: 8px 10px;
+    border: 1px solid var(--option-border);
+
+    /* Typography */
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--control-select-text);
+
+    /* Visuals */
+    background-color: var(--control-select-bg);
+    border-radius: 6px;
+    cursor: pointer;
+
+    /* Animation */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* =========================================
+   YEAR SELECT
+   ========================================= */
+#year-select {
+    /* Display & Positioning */
+    display: block;
+    text-align: center;
+
+    /* Box Model */
+    width: 150px;
+    margin: 0 auto 15px auto;
+    padding: 8px 10px;
+    border: 1px solid var(--option-border);
+
+    /* Typography */
+    font-weight: 600;
+    color: var(--control-select-text);
+
+    /* Visuals */
+    background-color: var(--control-select-bg);
+    border-radius: 6px;
+    cursor: pointer;
+
+    /* Animation */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* =========================================
+   MONTH POPUP
+   ========================================= */
+#month-popup {
+    /* Display & Positioning */
+    position: absolute;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    z-index: 999;
+
+    /* Box Model */
+    min-width: 180px;
+    padding: 6px;
+    gap: 4px;
+    border: 1px solid var(--option-border);
+
+    /* Typography */
+    color: var(--popup-text-color);
+
+    /* Visuals */
+    background: var(--popup-bg);
+    border-radius: 8px;
+    box-shadow: 0 8px 20px var(--container-shadow);
+
+    /* Animation */
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+#month-popup.hidden {
+    /* Display & Positioning */
+    pointer-events: none;
+
+    /* Visuals */
+    opacity: 0;
+    transform: translate(-150px);
+}
+
+#month-popup.animating div {
+    /* Display & Positioning */
+    pointer-events: none;
+}
+
+#month-popup div {
+    /* Display & Positioning */
+    text-align: center;
+
+    /* Box Model */
+    padding: 4px 8px;
+
+    /* Visuals */
+    border-radius: 4px;
+    cursor: pointer;
+
+    /* Animation */
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+#month-popup div:hover {
+    /* Typography */
+    color: var(--popup-hover-text-color);
+
+    /* Visuals */
+    background: var(--popup-hover-bg);
+}
+
+/* =========================================
+   CALENDAR HEADER (Month/Year & Nav)
+   ========================================= */
+.calendar-header {
+    /* Display & Positioning */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* Box Model */
+    padding: 10px 15px;
+
+    /* Typography */
+    color: var(--calendar-header-text-color);
+
+    /* Visuals */
+    background-color: var(--secondary-color);
+    border-radius: 5px 5px 0 0;
+
+    /* Animation */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#month-year-display {
+    /* Display & Positioning */
+    text-align: center;
+
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-size: 1.5em;
+    font-weight: 300;
+}
+
+.calendar-header button {
+    /* Box Model */
+    padding: 5px 10px;
+    border: none;
+
+    /* Typography */
+    font-size: 1.5em;
+    color: var(--calendar-header-button);
+
+    /* Visuals */
+    background: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    /* Animation */
+    transition: background-color 0.2s;
+}
+
+.calendar-header button:hover {
+    /* Visuals */
+    background-color: var(--calendar-header-button-hover);
+}
+
+/* =========================================
+   TODAY BUTTON
+   ========================================= */
+#today-btn {
+    /* Display & Positioning */
+    display: block;
+
+    /* Box Model */
+    width: 100%;
+    padding: 10px;
+    border: none;
+
+    /* Typography */
+    font-weight: bold;
+    color: var(--calendar-header-text-color);
+
+    /* Visuals */
+    background-color: var(--highlight-color);
+    cursor: pointer;
+
+    /* Animation */
+    transition: background-color 0.2s, color 0.3s;
+}
+
+#today-btn:hover {
+    /* Visuals */
+    background-color: var(--today-button-hover);
+}
+
+/* =========================================
+   CALENDAR TABLE & CELLS
+   ========================================= */
+.calendar-table {
+    /* Display & Positioning */
+    text-align: right;
+
+    /* Box Model */
+    width: 100%;
+    border-collapse: collapse;
+
+    /* Typography */
+    font-size: 0.95em;
+}
+
+.calendar-table th,
+.calendar-table td {
+    /* Box Model */
+    width: calc(100% / 7);
+    height: 60px;
+    padding: 10px 5px;
+    border: 1px solid var(--calendar-border);
+    box-sizing: border-box;
+}
+
+.calendar-table th {
+    /* Display & Positioning */
+    text-align: center;
+
+    /* Typography */
+    font-size: 0.85em;
+    font-weight: bold;
+    color: var(--calendar-th-text-color);
+
+    /* Visuals */
+    background-color: var(--calendar-th);
+}
+
+.calendar-table tbody {
+    /* Typography */
+    color: var(--calendar-tbody);
+}
+
+.today {
+    /* Box Model */
+    border: 2px solid var(--highlight-color);
+
+    /* Typography */
+    font-weight: bold;
+    line-height: 1;
+    color: var(--today);
+
+    /* Visuals */
+    background-color: var(--highlight-color);
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 1280px) {
+    .container {
+        /* Box Model */
+        padding: 15px;
+
+        /* Visuals */
+        box-shadow: 0 4px 12px var(--container-shadow);
+    }
+
+    #real-time-clock {
+        /* Typography */
+        font-size: 2em;
+    }
+
+    .calendar-header {
+        /* Box Model */
+        padding: 10px 15px;
+    }
+
+    #month-year-display {
+        /* Typography */
+        font-size: 1.2em;
+    }
+
+    .calendar-header button {
+        /* Box Model */
+        padding: 3px 5px;
+
+        /* Typography */
+        font-size: 1.3em;
+    }
+
+    .calendar-table th,
+    .calendar-table td {
+        /* Box Model */
+        height: 50px;
+        padding: 5px 2px;
+    }
+
+    .calendar-table th {
+        /* Typography */
+        font-size: 0.8em;
+    }
+}
+
+@media screen and (max-width: 785px) {
+    .controls {
+        /* Display & Positioning */
+        flex-direction: column;
+
+        /* Box Model */
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .control-group {
+        /* Box Model */
+        margin-bottom: 5px;
+    }
+    
+    #month-popup {
+        /* Typography */
+        font-size: 0.9em;
+    }
+
+    .calendar-header {
+        /* Box Model */
+        padding: 10px 8px;
+    }
+
+    .calendar-table {
+        /* Display & Positioning */
+        table-layout: fixed;
+
+        /* Typography */
+        font-size: 0.9em;
+    }
+
+    .calendar-table th,
+    .calendar-table td {
+        /* Display & Positioning */
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .today {
+        /* Typography */
+        font-size: 0.9em;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    #month-popup {
+        /* Display & Positioning */
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 585px) {
+    .dark-mode-control label{
+        /* Box Model */
+        width: 90px;
+
+        /* Typography */
+        font-size: 0.8em;
+    }
+    
+    #year-select {
+        /* Box Model */
+        width: 110px;
+
+        /* Typography */
+        font-size: 0.8em;
+    }
+
+    #month-popup {
+        /* Box Model */
+        min-width: 85px;
+
+        /* Typography */
+        font-size: 0.85em;
+    }
+}
+
+@media screen and (max-width: 535px) {
+    .dark-mode-control label{
+        /* Box Model */
+        width: 80px;
+
+        /* Typography */
+        font-size: 0.7em;
+    }
+    
+    #year-select {
+        /* Box Model */
+        width: 100px;
+
+        /* Typography */
+        font-size: 0.7em;
+    }
+
+    #month-popup {
+        /* Typography */
+        font-size: 0.75em;
+    }
+}

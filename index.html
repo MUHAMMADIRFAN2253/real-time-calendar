@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="clock-display">
+        <div id="real-time-clock"></div>
+        <div id="clock-zone-name"></div>
+      </div>
+
+      <div class="controls">
+        <div class="control-group">
+          <label id="label-timezone" for="timezone-select"></label>
+          <select id="timezone-select"></select>
+        </div>
+
+        <div class="control-group">
+          <label id="label-language" for="language-select"></label>
+          <select id="language-select"></select>
+        </div>
+      </div>
+
+      <div class="dark-mode-control">
+        <label id="label-dark-mode" for="dark-mode-toggle"></label>
+        <input type="checkbox" id="dark-mode-toggle" />
+      </div>
+
+      <select id="year-select"></select>
+      <div id="month-popup" class="hidden"></div>
+
+      <div class="calendar-header">
+        <button id="prev-month-btn">«</button>
+        <h1 id="month-year-display"></h1>
+        <button id="next-month-btn">»</button>
+      </div>
+
+      <button id="today-btn"></button>
+
+      <table class="calendar-table">
+        <thead>
+          <tr id="calendar-weekdays"></tr>
+        </thead>
+        <tbody id="calendar-body"></tbody>
+      </table>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
