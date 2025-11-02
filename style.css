@@ -274,7 +274,6 @@ body {
     position: absolute;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    z-index: 999;
 
     /* Box Model */
     min-width: 180px;
@@ -299,13 +298,8 @@ body {
     pointer-events: none;
 
     /* Visuals */
-    opacity: 0;
     transform: translate(-150px);
-}
-
-#month-popup.animating div {
-    /* Display & Positioning */
-    pointer-events: none;
+    opacity: 0;
 }
 
 #month-popup div {

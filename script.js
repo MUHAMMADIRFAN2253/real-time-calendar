@@ -1,7 +1,8 @@
 /**
  * @fileoverview script.js
  * @author [MUHAMMAD IRFAN]
- * @version 1.0.0
+ * GitHub: {@link https://github.com/MUHAMMADIRFAN2253}
+ * @version 1.0.1
  * @description Skrip utama untuk mengelola tampilan Jam Real-Time, Kalender yang terlokalisasi, dan
  *              kontrol interaktif (Mode Gelap/Terang).
  *              (Main script for managing Localized Real-Time Clock, Calendar display, and
@@ -120,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // AMERIKA (AMERICA)
     // ============================================================================================================
 
-    // AMERIKA UTARA (NORTH AMERICA - US/CANADA)
+    // AMERIKA UTARA - AS/KANADA (NORTH AMERICA - US/CANADA)
     'America/New_York',
     'America/Chicago',
     'America/Denver',
@@ -271,8 +272,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Pemetaan Zona Waktu ke Locale Default (Time Zone to Default Locale Mapping) ---
   const TIMEZONE_TO_LOCALE = {
-    'UTC': 'en-US',
-    'GMT': 'en-GB',
+    UTC: 'en-US',
+    GMT: 'en-GB',
 
     // ============================================================================================================
     // ASIA (ASIA)
@@ -362,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // AMERIKA (AMERICA)
     // ============================================================================================================
 
-    // AMERIKA UTARA (NORTH AMERICA - US/CANADA)
+    // AMERIKA UTARA - AS/KANADA (NORTH AMERICA - US/CANADA)
     'America/New_York': 'en-US',
     'America/Chicago': 'en-US',
     'America/Denver': 'en-US',
@@ -705,9 +706,9 @@ document.addEventListener('DOMContentLoaded', () => {
       'zh-TW': '今天',
 
       // PERANCIS (FRENCH)
-      'fr-FR': 'AUJOURD\'HUI',
-      'fr-CA': 'AUJOURD\'HUI',
-      'fr-BE': 'AUJOURD\'HUI',
+      'fr-FR': "AUJOURD'HUI",
+      'fr-CA': "AUJOURD'HUI",
+      'fr-BE': "AUJOURD'HUI",
 
       // JERMANIK/EROPA (GERMANIC/EUROPEAN)
       'de-DE': 'HEUTE',
@@ -977,6 +978,64 @@ document.addEventListener('DOMContentLoaded', () => {
       // INDIA
       'hi-IN': ' ईसा पूर्व',
     },
+    year_max_range_label: {
+      'id-ID': 'Rentang Maksimal',
+
+      // INGGRIS (ENGLISH)
+      'en-US': 'Full Range Select',
+      'en-GB': 'Full Range Select',
+      'en-AU': 'Full Range Select',
+      'en-CA': 'Full Range Select',
+      'en-IE': 'Full Range Select',
+      'en-NZ': 'Full Range Select',
+
+      // ASIA TIMUR (EAST ASIA)
+      'ja-JP': '最大範囲選択',
+      'ko-KR': '최대 범위 선택',
+      'zh-CN': '最大范围选择',
+      'zh-TW': '最大範圍選擇',
+
+      // PERANCIS (FRENCH)
+      'fr-FR': 'Sélection de Plage Maximale',
+      'fr-CA': 'Sélection de Plage Maximale',
+      'fr-BE': 'Sélection de Plage Maximale',
+
+      // JERMANIK/EROPA (GERMANIC/EUROPEAN)
+      'de-DE': 'Maximalbereich Auswahl',
+      'nl-NL': 'Maximale Reikwijdte',
+      'pl-PL': 'Wybór Maksymalnego Zakresu',
+      'sv-SE': 'Maximalt Urval',
+      'it-IT': 'Selezione Gamma Massima',
+
+      // SPANYOL (SPANISH)
+      'es-ES': 'Selección de Rango Máximo',
+      'es-MX': 'Selección de Rango Máximo',
+      'es-CL': 'Selección de Rango Máximo',
+
+      // PORTUGIS (PORTUGUESE)
+      'pt-PT': 'Seleção de Gama Máxima',
+      'pt-BR': 'Seleção de Gama Máxima',
+      'pt-AO': 'Seleção de Gama Máxima',
+
+      // SLAVIK/EROPA TIMUR (SLAVIC/EASTERN EUROPE)
+      'ru-RU': 'Выбор Максимального Диапазона',
+      'ru-KZ': 'Выбор Максимального Диапазона',
+      'uk-UA': 'Вибір Максимального Діапазону',
+
+      // TURKIK (TURKIC)
+      'tr-TR': 'Maksimum Aralık Seçimi',
+
+      // ARAB (ARABIC)
+      'ar-SA': 'اختيار النطاق الأقصى',
+      'ar-EG': 'اختيار النطاق الأقصى',
+
+      // ASIA TENGGARA (SOUTHEAST ASIA)
+      'th-TH': 'เลือกช่วงสูงสุด',
+      'vi-VN': 'Chọn Phạm Vi Tối Đa',
+
+      // INDIA
+      'hi-IN': 'अधिकतम सीमा चुनें',
+    },
   };
 
   // --- Judul Halaman yang Dilokalisasi (Localized Page Titles) ---
@@ -1034,7 +1093,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ASIA TENGGARA (SOUTHEAST ASIA)
     'th-TH': 'ปฏิทินแบบเรียลไทม์และท้องถิ่น',
     'vi-VN': 'Lịch Địa Phương dan Thời Gian Thực',
-    
+
     // INDIA
     'hi-IN': 'वास्तवik समय स्थानीय कैलेंडर',
   };
@@ -1193,13 +1252,29 @@ document.addEventListener('DOMContentLoaded', () => {
   // (Dark Mode state variable. The 'true' value is retrieved from Local Storage.)
   let isDarkMode = getStorage('darkMode', 'false') === 'true';
 
+  // Variabel status Popup. Nilai 'true' berarti popup sedang terbuka.
+  // (Popup state variable. The 'true' value means the popup is currently open.)
+  let popupVisible = false;
+
   // ===========================================================================================================
   // --- 3. FUNGSI PEMBANTU (HELPER FUNCTIONS) ---
   // ===========================================================================================================
 
   /**
-   * Menerjemahkan label UI statis (Zona Waktu, Bahasa) berdasarkan 'selectedLocale'.
-   * (Translates static UI labels (Time Zone, Language) based on 'selectedLocale'.)
+   * @description Memperbarui judul dokumen HTML berdasarkan 'selectedLocale'.
+   *              (Updates the HTML document title based on the 'selectedLocale'.)
+   */
+  function updatePageTitle() {
+    // Mengatur judul dokumen (tab browser) menggunakan nilai dari map PAGE_TITLE
+    // Fallback ke 'en-US' jika tidak ditemukan.
+    // (Sets the document title (browser tab) using the value from the PAGE_TITLE map
+    // Falls back to 'en-US' if not found.)
+    document.title = PAGE_TITLE[selectedLocale] || PAGE_TITLE['en-US'];
+  }
+
+  /**
+   * @description Menerjemahkan label UI statis (Zona Waktu, Bahasa) berdasarkan 'selectedLocale'.
+   *              (Translates static UI labels (Time Zone, Language) based on 'selectedLocale'.)
    *
    * Menggunakan 'en-US' sebagai fallback. Juga memanggil updateDarkModeLabel() untuk
    * menangani label Dark Mode yang sifatnya dinamis (berubah tergantung status toggle).
@@ -1218,129 +1293,395 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * @description Mengisi dropdown Tahun Cepat (Quick Year Select).
-   *              (Populates the Quick Year Select dropdown.)
+   * @description Menghitung label tampilan tahun (Masehi/Sebelum Masehi).
+   *              (Calculating the year display label (AD/BC).)
+   * 
+   * @param    {number}                y - Nilai tahun internal (misalnya -7580).
+   *                                       (Internal year value (for example -7580).)
+   * @param    {string}  suffix_positive - Akhiran untuk tahun Masehi (misalnya ' AD').
+   *                                       (The suffix for the Common Era (for example, 'AD').)
+   * @param    {string}  suffix_negative - Akhiran untuk tahun Sebelum Masehi (misalnya ' BC').
+   *                                       (The suffix for years Before Christ (for example, 'BC').)
+   * 
+   * @returns  {string}  Label tampilan yang benar.
+   *                     (The correct display label.)
+   */
+  function getDisplayLabel(y, suffix_positive, suffix_negative) {
+    if (y > 0) {
+      // Tahun 1 M ke atas
+      // (From the year 1 AD onwards)
+      return `${y}${suffix_positive}`;
+    } else if (y === 0) {
+      // Tahun 0 (setara dengan 1 SM secara historis)
+      // (Year 0 (equivalent to 1 BC historically))
+      const smYear = 1; // Tahun 1 Sebelum Masehi (1 Year Before Christ)
+      return `${smYear}${suffix_negative}`;
+    } else {
+      // Tahun negatif (-1, -2, ...) – (Negative years (-1, -2, ...))
+      // Contoh: y = -1 --> 0 - (-1) = 1. Kita ingin 2 SM – (Example: y = -1 --> 0 - (-1) = 1. We want 2 BC)
+      // Rumusnya: (0 - y) + 1 TIDAK TEPAT – (The formula: (0 - y) + 1 IS NOT CORRECT)
+      // Rumusnya: Math.abs(y) + 1 TEPAT – (The formula: Math.abs(y) + 1 EXACT)
+      const smYear = Math.abs(y) + 1;
+      return `${smYear}${suffix_negative}`;
+    }
+  }
+
+  /**
+   * @description Mengisi dropdown Tahun Cepat dengan rentang terbatas
+   *              berpusat pada tahun kalender yang sedang aktif.
+   *              (Populate the Quick Year Select dropdown with a limited range
+   *              centered on the currently active calendar year.)
    */
   function populateYearSelect() {
     if (!yearSelect) return;
-    const currentYear = new Date().getFullYear();
+    // Tahun kalender yang sedang aktif
+    // (The current calendar year)
+    const activeCalendarYear = currentDate.getFullYear();
+
+    // Tahun Masehi saat ini (untuk batas)
+    // (Current Gregorian year (for reference))
+    const currentAbsoluteYear = new Date().getFullYear();
 
     // Ambil akhiran tahun berdasarkan locale yang dipilih
     // (Get the year-end suffix based on the selected locale)
     const suffix_positive = getTrans('year_suffix_m', selectedLocale);
     const suffix_negative = getTrans('year_suffix_sm', selectedLocale);
 
+    // Ambil terjemahan untuk rentang maksimal
+    // (Take the translation for the maximum range)
+    const jump_label = getTrans('year_max_range_label', selectedLocale);
+
+    // Hanya me-render 200 tahun ke belakang dan 200 tahun ke depan
+    // (Only render 200 years back and 200 years forward)
+    const range = 200;
+
+    // Batas Absolut render pemilihan tahun
+    // (Absolute limit of election year rendering)
+    const ABSOLUTE_MIN_YEAR = currentAbsoluteYear - 10000;
+    const ABSOLUTE_MAX_YEAR = currentAbsoluteYear + 10000;
+
     let html = '';
+
+    // ------------------------------------------------------------------------------------------------------------
+    // 1. OPSI LOMPATAN JAUH (KE BELAKANG)
+    // 1. LONG JUMP OPTION (BACKWARDS)
+    // ------------------------------------------------------------------------------------------------------------
+
+    // Hanya tampilkan Lompat Jauh jika tahun aktif belum mendekati batas absolut minimal
+    // (Only display Long Jump if the active year has not yet approached the absolute minimum limit)
+    if (activeCalendarYear > ABSOLUTE_MIN_YEAR + range) {
+      // Tampilkan opsi Lompat ke Batas Bawah
+      // (Show the option Jump to Lower Limit)
+      // Catatan: Kita menggunakan ABSOLUTE_MIN_YEAR sebagai nilai
+      // (Note: We use ABSOLUTE_MIN_YEAR as the value)
+      const displayLabelMin = getDisplayLabel(
+        ABSOLUTE_MIN_YEAR,
+        suffix_positive,
+        suffix_negative
+      );
+      html += `<option value="${ABSOLUTE_MIN_YEAR}"> ⮜ ${displayLabelMin} (${jump_label}) </option>`;
+
+      // Opsi Lompat 200 tahun ke belakang
+      // (Option to Jump 200 Years Back)
+      const jumpBackYear = activeCalendarYear - 200;
+      const displayJumpBack = getDisplayLabel(
+        jumpBackYear,
+        suffix_positive,
+        suffix_negative
+      );
+
+      html += `<option value="${jumpBackYear}"> ⮜ ${displayJumpBack} </option>`;
+      html += `<option disabled>----------------------</option>`;
+    }
+
+    // ------------------------------------------------------------------------------------------------------------
+    // 2. RENTANG TAHUN TERBATAS (UTAMA)
+    // 2. LIMITED YEARS RANGE (PRIMARY)
+    // ------------------------------------------------------------------------------------------------------------
+
+    // Pastikan rentang terbatas tidak melewati batas absolut
+    // (Make sure the limited range does not exceed the absolute limit)
+    const startYear = Math.max(activeCalendarYear - range, ABSOLUTE_MIN_YEAR);
+    const endYear = Math.min(activeCalendarYear + range, ABSOLUTE_MAX_YEAR);
 
     // Menawarkan 10000 tahun ke belakang dan 10000 tahun ke depan
     // (Offers 10000 years back and 10000 years forward)
-    for (let y = currentYear - 10000; y <= currentYear + 10000; y++) {
-      if (y > 0) {
-        // Tahun 1 M ke atas
-        // (From the year 1 AD onwards)
-        displayLabel = `${y}${suffix_positive}`;
-      } else if (y === 0) {
-        // Tahun 0 (setara dengan 1 SM secara historis)
-        // (Year 0 (equivalent to 1 BC historically))
-        const smYear = 1; // Tahun 1 Sebelum Masehi (1 Year Before Christ)
-        displayLabel = `${smYear}${suffix_negative}`;
-      } else {
-        // Tahun negatif (-1, -2, ...) – (Negative years (-1, -2, ...))
-        // Contoh: y = -1 --> 0 - (-1) = 1. Kita ingin 2 SM – (Example: y = -1 --> 0 - (-1) = 1. We want 2 BC)
-        // Rumusnya: (0 - y) + 1 TIDAK TEPAT – (The formula: (0 - y) + 1 IS NOT CORRECT)
-        // Rumusnya: Math.abs(y) + 1 TEPAT – (The formula: Math.abs(y) + 1 EXACT)
-        const smYear = Math.abs(y) + 1;
-        displayLabel = `${smYear}${suffix_negative}`;
-      }
+    for (let y = startYear; y <= endYear; y++) {
+      const displayLabel = getDisplayLabel(y, suffix_positive, suffix_negative);
 
-      const isSelected = y === currentDate.getFullYear() ? 'selected' : '';
+      const isSelected = y === activeCalendarYear ? 'selected' : '';
       html += `<option value="${y}" ${isSelected}>${displayLabel}</option>`;
     }
+    // ------------------------------------------------------------------------------------------------------------
+    // 3. OPSI LOMPATAN JAUH (KE DEPAN)
+    // 3. LONG JUMP OPTION (FORWARD)
+    // ------------------------------------------------------------------------------------------------------------
+
+    // Hanya tampilkan Lompat Jauh jika tahun aktif belum mendekati batas absolut maksimal
+    // (Only display Long Jump if the active year has not yet approached the absolute maximum limit)
+    if (activeCalendarYear < ABSOLUTE_MAX_YEAR - range) {
+      html += `<option disabled>----------------------</option>`;
+
+      // Opsi Lompat 200 tahun ke depan
+      // (Jump option 200 years ahead)
+      const jumpForwardYear = activeCalendarYear + 200;
+      const displayJumpForward = getDisplayLabel(
+        jumpForwardYear,
+        suffix_positive,
+        suffix_negative
+      );
+      html += `<option value="${jumpForwardYear}"> ${displayJumpForward} ⮞ </option>`;
+
+      // Tampilkan opsi Lompat ke Batas Atas
+      // (Show the Jump to Top option)
+      // Catatan: Kita menggunakan ABSOLUTE_MAX_YEAR sebagai nilai
+      // (Note: We use ABSOLUTE_MAX_YEAR as the value)
+      const displayLabelMax = getDisplayLabel(
+        ABSOLUTE_MAX_YEAR,
+        suffix_positive,
+        suffix_negative
+      );
+      html += `<option value="${ABSOLUTE_MAX_YEAR}"> ${displayLabelMax} (${jump_label}) ⮞ </option>`;
+    }
+
     yearSelect.innerHTML = html;
 
     // Sinkronisasi nilai dropdown dengan tahun kalender yang aktif
     // (Synchronize dropdown value with the active calendar year)
-    yearSelect.value = currentDate.getFullYear();
+    yearSelect.value = activeCalendarYear;
+
+    yearSelect.addEventListener('change', handleYearJump);
   }
 
+  /**
+   * @description Menangani perubahan (jump) tahun yang dipilih dari dropdown tahun.
+   *              Ini memastikan bahwa nilai yang dipilih valid sebelum memperbarui kalender.
+   *              (Handling the change (jump) of the year selected from the year dropdown.
+   *              This ensures that the selected value is valid before updating the calendar.)
+   */
+  function handleYearJump() {
+    // Ambil nilai dari opsi tahun yang dipilih dari elemen 'yearSelect'.
+    // parseInt(value, 10) digunakan untuk mengubah string menjadi bilangan bulat (basis 10).
+    // (Retrieve the value from the selected year option from the 'yearSelect' element.
+    // parseInt(value, 10) is used to convert the string to an integer (base 10).)
+    const selectedYearValue = parseInt(yearSelect.value, 10);
+
+    // Periksa apakah nilai yang diambil BUKAN Angka (NaN).
+    // Ini menangani kasus di mana opsi yang dipilih mungkin berupa teks atau pemisah yang tidak valid.
+    // (Check if the retrieved value IS NOT a Number (NaN).
+    // This handles cases where the selected option might be invalid text or a separator.)
+    if (isNaN(selectedYearValue)) {
+      // Abaikan eksekusi fungsi (keluar) jika nilai bukan angka yang valid.
+      // (Ignore function execution (return) if the value is not a valid number.)
+      return;
+    }
+
+    // Panggil fungsi inti kalender
+    // (Call the core calendar function)
+    setCalendarYear(selectedYearValue);
+  }
+
+  /**
+   * @description Mengubah tahun kalender utama dan me-render ulang tampilan.
+   *              (Changing the main calendar year and re-rendering the view.)
+   * 
+   * @param  {number}  newYear - Tahun baru yang akan diubah.
+   *                             (The New Year that will be changed.)
+   */
+  function setCalendarYear(newYear) {
+    // Ubah tahun kalender yang aktif
+    // (Change the active calendar year)
+    currentDate.setFullYear(newYear);
+
+    // PENTING: Panggil ulang populateYearSelect()
+    // Ini akan memastikan dropdown diisi dengan tahun-tahun di sekitar 'newYear'
+    // (IMPORTANT: Call populateYearSelect() again
+    // This will ensure the dropdown is populated with years around 'newYear')
+    populateYearSelect();
+  }
+
+  /**
+   * @description Menampilkan popup yang berisi daftar 12 bulan.
+   *              (Displays a popup containing a list of 12 months.)
+   *              Fungsi ini mengatur konten, posisi, dan logika interaksi (klik) pada bulan.
+   *              (This function manages the content, position, and interaction logic (click) on the month.)
+   *
+   * @param  {number}                year - Tahun yang akan ditampilkan dalam daftar bulan.
+   *                                        (The year that will be displayed in the list of months.)
+   * @param  {HTMLElement}  targetElement - Elemen pemicu untuk penentuan posisi popup.
+   *                                        (The trigger element for determining the popup position.)
+   */
   function showMonthPopup(year, targetElement) {
+    // Mendapatkan referensi ke elemen DOM popup bulan.
+    // (Get reference to the month popup DOM element.)
     const popup = monthPopup;
+
+    // Mengosongkan konten popup dari bulan-bulan sebelumnya.
+    // (Clear the popup content from previous months.)
     popup.innerHTML = '';
 
+    // Membuat objek pemformat tanggal untuk mendapatkan nama bulan (penuh)
+    // berdasarkan lokalitas (bahasa) yang dipilih.
+    // (Create a date formatting object to get the full month name
+    // based on the selected locale (language).)
     const monthFormatter = new Intl.DateTimeFormat(selectedLocale, {
       month: 'long',
     });
 
+    // Perulangan untuk membuat item untuk setiap 12 bulan (indeks m dari 0 hingga 11).
+    // (Loop to create items for all 12 months (index m from 0 to 11).)
     for (let m = 0; m < 12; m++) {
+      // Mendapatkan nama bulan yang diformat (misalnya "Oktober").
+      // (Get the formatted month name (e.g., "October").)
       const label = monthFormatter.format(new Date(year, m, 1));
+
+      // Membuat elemen div baru sebagai item bulan yang dapat diklik.
+      // (Create a new div element to serve as the clickable month item.)
       const item = document.createElement('div');
+
+      // Mengatur teks item menjadi nama bulan.
+      // (Set the item's text to the month name.)
       item.textContent = label;
+
+      // Menyimpan indeks bulan (0-11) dalam data atribut untuk referensi.
+      // (Store the month index (0-11) in a data attribute for reference.)
       item.dataset.month = m;
 
+      // Menambahkan event listener saat item bulan diklik.
+      // (Add a click event listener to the month item.)
       item.addEventListener('click', () => {
+        // Menyembunyikan popup setelah bulan dipilih.
+        // (Hide the popup after a month is selected.)
         popup.classList.add('hidden');
+
+        // Memperbarui tahun dan bulan pada objek tanggal global.
+        // (Update the year and month on the global date object.)
         currentDate.setFullYear(year);
         currentDate.setMonth(m);
+
+        // Menyimpan pilihan tahun dan bulan ke Local Storage untuk persistensi.
+        // (Save the selected year and month to Local Storage for persistence.)
         setStorage('selectedYear', year);
         setStorage('selectedMonth', m);
+
+        // Render ulang kalender dengan bulan/tahun yang baru.
+        // (Re-render the calendar with the new month/year.)
         renderCalendar();
       });
 
+      // Menambahkan item bulan ke dalam elemen popup.
+      // (Append the month item into the popup element.)
       popup.appendChild(item);
     }
 
+    // Mendapatkan posisi (koordinat dan dimensi) elemen pemicu.
+    // (Get the position (coordinates and dimensions) of the target element.)
     const rect = targetElement.getBoundingClientRect();
-    popup.style.top = `${rect.top + window.scrollY}px`;
-    popup.style.left = `${rect.right + window.scrollX}px`;
 
-    popup.classList.remove('hidden');
-  }
+    // Mengatur posisi vertikal (top) popup agar sejajar dengan elemen pemicu,
+    // disesuaikan dengan scroll halaman.
+    // (Set the vertical position (top) of the popup to align with the trigger element,
+    // adjusted according to the page scroll.)
 
-  /**
-   * @description Memperbarui teks label Dark Mode menjadi 'Mode Gelap' atau 'Mode Terang'
-   *              dan menerjemahkannya sesuai dengan selectedLocale.
-   *              (Updates the Dark Mode label text to 'Dark Mode' or 'Light Mode'
-   *              and translates it according to selectedLocale.)
-   */
-  function updateDarkModeLabel() {
-    if (!labelDarkMode || !darkModeToggle) return;
+    // ---   LOGIKA PENYESUAIAN POSISI VERTIKAL (TOP)  ---
+    // --- LOGIC OF VERTICAL POSITION ADJUSTMENT (TOP) ---
 
-    // Menentukan key terjemahan yang tepat: Jika mode gelap aktif, tawarkan Light Mode (dan sebaliknya)
-    // (Determine the correct translation key: If dark mode is checked, offer Light Mode (and vice versa))
-    const labelKey = darkModeToggle.checked
-      ? 'light_mode_label'
-      : 'dark_mode_label';
+    // KONDISI PREDIKSI: Apakah dropdown tahun kemungkinan besar membuka ke BAWAH?
+    // (PREDICTION CONDITION: Is the year dropdown most likely to open DOWNWARD?)
+    // Dropdown tahun akan membuka ke BAWAH jika ada banyak ruang di bawah elemen pemicunya.
+    // (The year dropdown will open DOWN if there is enough space below its trigger element.)
+    if (rect.bottom < window.innerHeight / 2) {
+      // Jika elemen pemicu berada di PARUH ATAS layar, year-select kemungkinan besar membuka ke BAWAH.
+      // (If the trigger element is at the UPPER HALF of the screen, the year-select is likely to open DOWNWARD.)
 
-    labelDarkMode.textContent = getTrans(labelKey, selectedLocale);
-  }
-
-  /**
-   * @description Mengelola status Mode Gelap (Dark Mode).
-   *              (Manages the Dark Mode state.)
-   */
-  function applyDarkMode() {
-    if (isDarkMode) {
-      body.classList.add('dark-mode');
-      setStorage('darkMode', 'true');
+      // Posisikan popup bulan di ATAS elemen pemicu untuk menghindari tabrakan.
+      // (Position the month popup ABOVE the trigger element to avoid overlap.)
+      popup.style.top = `${
+        rect.bottom + window.scrollY - popup.offsetHeight
+      }px`;
     } else {
-      body.classList.remove('dark-mode');
-      setStorage('darkMode', 'false');
-    }
-    // Sinkronisasi checkbox dengan status isDarkMode
-    // (Synchronize checkbox with the isDarkMode state)
-    if (darkModeToggle) darkModeToggle.checked = isDarkMode;
+      // Jika elemen pemicu berada di PARUH BAWAH layar, year-select kemungkinan besar membuka ke ATAS.
+      // Dalam kasus ini, kita biarkan popup bulan sejajar atau sedikit di bawah.
+      // (If the trigger element is at the LOWER HALF of the screen, the year-select will likely open UPWARD.
+      // In this case, we let the month popup align or be slightly below.)
 
-    // Perbarui label setelah mode diterapkan
-    // (Update label after the mode is applied)
-    updateDarkModeLabel();
+      // Posisikan popup bulan sejajar dengan elemen pemicu.
+      // Ini mengasumsikan year-select membuka ke ATAS, sehingga tidak menutupi.
+      // (Position the month popup aligned with the trigger element.
+      // This assumes the year-select opens UP, so it does not cover anything.)
+      popup.style.top = `${rect.top + window.scrollY}px`;
+    }
+
+    // Mengatur posisi horizontal (right) popup agar berada di samping elemen pemicu,
+    // disesuaikan dengan scroll halaman.
+    // (Set the horizontal position (right) of the popup to be next to the trigger element,
+    // adjusted according to the page scroll.)
+    popup.style.right = `${rect.right + window.scrollX}px`;
+
+    // Logika untuk menampilkan popup, termasuk penanganan animasi (transisi).
+    // (Logic to display the popup, including animation (transition) handling.)
+    if (popup.classList.contains('hidden')) {
+      // Menghapus kelas 'hidden' untuk membuat popup terlihat.
+      // (Remove 'hidden' class to make the popup visible.)
+      popup.classList.remove('hidden');
+
+      // Menambahkan kelas 'animating' untuk memicu animasi CSS.
+      // (Add 'animating' class to trigger CSS animation.)
+      popup.classList.add('animating');
+
+      // Menonaktifkan interaksi klik saat animasi berlangsung.
+      // (Disable click interactions while the animation is running.)
+      popup.style.pointerEvents = 'none';
+
+      // Fungsi yang dipanggil saat transisi CSS selesai.
+      // (Function called when the CSS transition ends.)
+      const handleTransitionEnd = (e) => {
+        // Memastikan event berasal dari elemen popup itu sendiri.
+        // (Ensure the event originated from the popup element itself.)
+        if (e.target === popup) {
+          // Menghapus kelas 'animating' setelah transisi selesai.
+          // (Remove 'animating' class after transition completes.)
+          popup.classList.remove('animating');
+
+          // Mengaktifkan kembali interaksi klik.
+          // (Re-enable click interactions.)
+          popup.style.pointerEvents = '';
+
+          // Menghapus listener untuk mencegah penumpukan event.
+          // (Remove the listener to prevent event stacking.)
+          popup.removeEventListener('transitionend', handleTransitionEnd);
+        }
+      };
+
+      // Mendaftarkan fungsi untuk mendengarkan akhir dari transisi CSS.
+      // (Register the function to listen for the end of the CSS transition.)
+      popup.addEventListener('transitionend', handleTransitionEnd);
+    }
   }
 
+  /**
+   * @description Memperbarui label grup zona waktu (optgroup) yang bukan '🇮🇩 Indonesia'.
+   *              Label akan diubah menggunakan terjemahan lokal yang sesuai.
+   *              (Updating the timezone group label (optgroup) that is not '🇮🇩 Indonesia'.
+   *              The label will be changed using the appropriate local translation.)
+   */
   function updateTimezoneGroupLabel() {
+    // Mendapatkan NodeList dari semua elemen <optgroup> di dalam elemen '#timezone-select'.
+    // (Get a NodeList of all <optgroup> elements within the '#timezone-select' element.)
     const allGroups = document.querySelectorAll('#timezone-select optgroup');
+
+    // Mengubah NodeList menjadi Array agar dapat menggunakan metode find().
+    // (Converting a NodeList into an Array so that the find() method can be used.)
     const globalGroup = Array.from(allGroups).find(
+      // Mencari grup yang labelnya TIDAK SAMA dengan '🇮🇩 Indonesia'.
+      // Grup ini dianggap sebagai grup global/lainnya.
+      // (Looking for groups whose label is NOT the same as '🇮🇩 Indonesia'.
+      // These groups are considered global/other groups.)
       (group) => group.label !== '🇮🇩 Indonesia'
     );
 
+    // Memeriksa apakah grup global berhasil ditemukan.
+    // (Check if the global group was successfully found.)
     if (globalGroup) {
       globalGroup.label = getTrans('global_timezone_group', selectedLocale);
     }
@@ -1429,8 +1770,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Memformat label opsi zona waktu dengan nama kota, ID IANA lengkap, dan offset UTC.
-   * (Formats the time zone option label with the city name, full IANA ID, and UTC offset.)
+   * @description Memformat label opsi zona waktu dengan nama kota, ID IANA lengkap, dan offset UTC.
+   *              (Formats the time zone option label with the city name, full IANA ID, and UTC offset.)
    *
    * @param    {string}  tz - IANA Time Zone ID.
    * @returns  {string}       Label yang diformat (misalnya, 'Jakarta (Asia/Jakarta) [UTC+07:00]').
@@ -1490,20 +1831,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Memperbarui judul dokumen HTML berdasarkan 'selectedLocale'.
-   * (Updates the HTML document title based on the 'selectedLocale'.)
-   */
-  function updatePageTitle() {
-    // Mengatur judul dokumen (tab browser) menggunakan nilai dari map PAGE_TITLE
-    // Fallback ke 'en-US' jika tidak ditemukan.
-    // (Sets the document title (browser tab) using the value from the PAGE_TITLE map
-    // Falls back to 'en-US' if not found.)
-    document.title = PAGE_TITLE[selectedLocale] || PAGE_TITLE['en-US'];
-  }
-
-  /**
-   * Menyinkronkan locale yang dipilih ke locale yang direkomendasikan untuk zona waktu tertentu.
-   * (Syncs the selected locale to a recommended locale for the given timezone.)
+   * @description Menyinkronkan locale yang dipilih ke locale yang direkomendasikan untuk zona waktu tertentu.
+   *              (Syncs the selected locale to a recommended locale for the given timezone.)
    *
    * @param  {string}  timezone - Zona Waktu yang baru dipilih.
    *                              (The newly selected Time Zone.)
@@ -1527,8 +1856,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Menyinkronkan zona waktu yang dipilih ke zona waktu yang direkomendasikan untuk locale tertentu.
-   * (Syncs the selected timezone to a recommended timezone for the given locale.)
+   * @description Menyinkronkan zona waktu yang dipilih ke zona waktu yang direkomendasikan untuk locale tertentu.
+   *              (Syncs the selected timezone to a recommended timezone for the given locale.)
    *
    * @param  {string}  locale - Locale yang baru dipilih.
    *                            (The newly selected Locale.)
@@ -1549,13 +1878,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /**
+   * @description Memperbarui teks label Dark Mode menjadi 'Mode Gelap' atau 'Mode Terang'
+   *              dan menerjemahkannya sesuai dengan selectedLocale.
+   *              (Updates the Dark Mode label text to 'Dark Mode' or 'Light Mode'
+   *              and translates it according to selectedLocale.)
+   */
+  function updateDarkModeLabel() {
+    if (!labelDarkMode || !darkModeToggle) return;
+
+    // Menentukan key terjemahan yang tepat: Jika mode gelap aktif, tawarkan Light Mode (dan sebaliknya)
+    // (Determine the correct translation key: If dark mode is checked, offer Light Mode (and vice versa))
+    const labelKey = darkModeToggle.checked
+      ? 'light_mode_label'
+      : 'dark_mode_label';
+
+    labelDarkMode.textContent = getTrans(labelKey, selectedLocale);
+  }
+
+  /**
+   * @description Mengelola status Mode Gelap (Dark Mode).
+   *              (Manages the Dark Mode state.)
+   */
+  function applyDarkMode() {
+    if (isDarkMode) {
+      body.classList.add('dark-mode');
+      setStorage('darkMode', 'true');
+    } else {
+      body.classList.remove('dark-mode');
+      setStorage('darkMode', 'false');
+    }
+    // Sinkronisasi checkbox dengan status isDarkMode
+    // (Synchronize checkbox with the isDarkMode state)
+    if (darkModeToggle) darkModeToggle.checked = isDarkMode;
+
+    // Perbarui label setelah mode diterapkan
+    // (Update label after the mode is applied)
+    updateDarkModeLabel();
+  }
+
   // ===========================================================================================================
   // --- 4. INISIALISASI KONTROL & EVENT LISTENER (CONTROL INITIALIZATION & EVENT LISTENERS) ---
   // ===========================================================================================================
 
   /**
-   * Mengisi dropdown Zona Waktu dan Bahasa.
-   * (Populates the Time Zone and Language dropdowns.)
+   * @description Mengisi dropdown Zona Waktu dan Bahasa.
+   *              (Populates the Time Zone and Language dropdowns.)
    */
   function populateControls() {
     // ---     Mengisi Opsi Bahasa     ---
@@ -1608,31 +1976,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // (Inserts all options into the Time Zone <select> element)
     timezoneSelect.innerHTML = tzOptionsHTML;
 
-    timezoneSelect.value = selectedTimezone;
     languageSelect.value = selectedLocale;
+    timezoneSelect.value = selectedTimezone;
 
+    populateYearSelect();
     populateTimezoneSelect();
-    populateYearSelect();
   }
-
-  // Listener Perubahan Zona Waktu: Memperbarui tampilan jam dan kalender
-  // (Time Zone Change Listener: Updates clock and calendar display)
-  timezoneSelect.addEventListener('change', (e) => {
-    // Mengambil nilai zona waktu yang baru dipilih
-    // (Gets the newly selected time zone value)
-    selectedTimezone = e.target.value;
-
-    setStorage('selectedTimezone', selectedTimezone);
-
-    // Sinkronkan locale saat zona waktu berubah
-    // (Sync locale when timezone changes)
-    syncTimezoneToLocale(selectedTimezone);
-
-    populateYearSelect();
-    updateTimezoneGroupLabel();
-    startClock();
-    renderCalendar();
-  });
 
   // Listener Perubahan Bahasa: Memperbarui semua terjemahan dan tampilan
   // (Language Change Listener: Updates all translations and display)
@@ -1655,6 +2004,103 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCalendar();
   });
 
+  // Listener Perubahan Zona Waktu: Memperbarui tampilan jam dan kalender
+  // (Time Zone Change Listener: Updates clock and calendar display)
+  timezoneSelect.addEventListener('change', (e) => {
+    // Mengambil nilai zona waktu yang baru dipilih
+    // (Gets the newly selected time zone value)
+    selectedTimezone = e.target.value;
+
+    setStorage('selectedTimezone', selectedTimezone);
+
+    // Sinkronkan locale saat zona waktu berubah
+    // (Sync locale when timezone changes)
+    syncTimezoneToLocale(selectedTimezone);
+
+    populateYearSelect();
+    updateTimezoneGroupLabel();
+    startClock();
+    renderCalendar();
+  });
+
+  // Memastikan elemen 'yearSelect' ada sebelum menambahkan listener.
+  // (Ensure the 'yearSelect' element exists before adding the listener.)
+  if (yearSelect) {
+    yearSelect.addEventListener('change', (e) => {
+      // Mengambil nilai tahun yang baru dan mengubahnya menjadi bilangan bulat.
+      // (Get the new year value and convert it to an integer.)
+      const newYear = parseInt(e.target.value);
+
+      // Mengatur tahun penuh pada objek tanggal global.
+      // (Set the full year on the global date object.)
+      currentDate.setFullYear(newYear);
+
+      renderCalendar();
+    });
+  }
+
+  yearSelect.addEventListener('click', () => {
+    // Mendapatkan tahun saat ini dari nilai dropdown dan mengubahnya menjadi bilangan bulat.
+    // (Get the current year from the dropdown value and convert it to an integer.)
+    const year = parseInt(yearSelect.value);
+    const popup = monthPopup;
+
+    // Logika jika popup bulan saat ini TIDAK terlihat (pertama kali diklik/dibuka).
+    // (Logic if the month popup is currently NOT visible (first time clicked/opened).)
+    if (!popupVisible) {
+      // Memanggil fungsi untuk menampilkan dan memposisikan popup bulan.
+      // (Call the function to display and position the month popup.)
+      showMonthPopup(year, yearSelect);
+
+      // Mendapatkan gaya komputasi dari popup untuk menghitung properti transisi.
+      // (Get the computed styles of the popup to calculate transition properties.)
+      const computed = getComputedStyle(popup);
+
+      // Menghitung berapa banyak properti CSS yang sedang ditransisikan.
+      // (Count how many CSS properties are being transitioned.)
+      const transitionProps = computed.transitionProperty.split(',').length;
+
+      // Variabel untuk melacak berapa banyak transisi yang sudah selesai.
+      // (Variable to track how many transitions have ended.)
+      let endedCount = 0;
+
+      // Fungsi yang dijalankan setiap kali transisi CSS selesai.
+      // (Function executed every time a CSS transition ends.)
+      const handleTransitionEnd = () => {
+        endedCount++;
+        // Memeriksa apakah SEMUA transisi telah selesai.
+        // (Check if ALL transitions have completed.)
+        if (endedCount >= transitionProps) {
+          popupVisible = true;
+        }
+      };
+      // Menambahkan listener untuk mendeteksi akhir transisi.
+      // (Add a listener to detect the end of the transition.)
+      popup.addEventListener('transitionend', handleTransitionEnd);
+    } else {
+      showMonthPopup(year, yearSelect);
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    const popup = monthPopup;
+    // Memeriksa dua kondisi untuk menutup popup:
+    // 1. Klik terjadi di LUAR area popup (bukan elemen turunan popup).
+    // 2. Target klik BUKAN elemen pemilihan tahun ('yearSelect').
+    // (Check two conditions to close the popup:
+    // 1. A click occurs OUTSIDE the popup area (not on a child element of the popup).
+    // 2. The target click is NOT the year selection element ('yearSelect').)
+    if (!popup.contains(e.target) && e.target !== yearSelect) {
+      popup.classList.add('hidden');
+      popupVisible = false;
+    }
+  });
+
+  window.addEventListener('scroll', () => {
+    monthPopup.classList.add('hidden');
+    popupVisible = false;
+  });
+
   // Listener Navigasi Bulan: Tombol 'Previous Month'
   // (Month Navigation Listener: 'Previous Month' button)
   prevMonthBtn.addEventListener('click', () => {
@@ -1671,45 +2117,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (todayBtn) {
     todayBtn.addEventListener('click', () => {
+      // Mengatur objek tanggal global (currentDate) ke tanggal dan waktu saat ini.
+      // Ini akan mengarahkan kalender kembali ke hari ini.
+      // (Set the global date object (currentDate) to the current date and time.
+      // This will direct the calendar back to today.)
       currentDate = new Date();
+
+      populateYearSelect();
       renderCalendar();
     });
   }
-
-  if (yearSelect) {
-    yearSelect.addEventListener('change', (e) => {
-      const newYear = parseInt(e.target.value);
-      currentDate.setFullYear(newYear);
-      renderCalendar();
-    });
-  }
-
-  yearSelect.addEventListener('click', () => {
-    const year = parseInt(yearSelect.value);
-    const popup = monthPopup;
-    popup.classList.add('animating');
-    showMonthPopup(year, yearSelect);
-    popup.addEventListener(
-      'transitionend',
-      () => popup.classList.remove('animating'),
-      { once: true }
-    );
-  });
-
-  document.addEventListener('click', (e) => {
-    const popup = monthPopup;
-    if (!popup.contains(e.target) && e.target !== yearSelect) {
-      popup.classList.add('hidden');
-    }
-  });
-
-  window.addEventListener('scroll', () => {
-    monthPopup.classList.add('hidden');
-  });
 
   if (darkModeToggle) {
     darkModeToggle.addEventListener('change', () => {
+      // Memperbarui variabel status Mode Gelap global ('isDarkMode')
+      // berdasarkan status centang (checked) dari tombol toggle.
+      // (Update the global Dark Mode status variable ('isDarkMode')
+      // based on the checked status of the toggle switch.)
       isDarkMode = darkModeToggle.checked;
+
       applyDarkMode();
     });
   }
@@ -1721,8 +2147,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let clockUpdateId = null;
 
   /**
-   * Memperbarui tampilan jam real-time.
-   * (Updates the real-time clock display.)
+   * @description Memperbarui tampilan jam real-time.
+   *              (Updates the real-time clock display.)
    */
   function updateClock() {
     // Membuat objek Date saat ini (mengambil waktu dari sistem lokal browser).
@@ -1772,8 +2198,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Merender header hari dalam seminggu (Senin, Selasa, dst.) berdasarkan locale dan lebar layar.
-   * (Renders the weekday headers (Mon, Tue, etc.) based on locale and screen width.)
+   * @description Merender header hari dalam seminggu (Senin, Selasa, dst.) berdasarkan locale dan lebar layar.
+   *              (Renders the weekday headers (Mon, Tue, etc.) based on locale and screen width.)
    */
   function renderWeekdays() {
     // Mengosongkan header yang ada
@@ -1788,7 +2214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Penggunaan Date.UTC mencegah pergeseran zona waktu browser lokal saat inisialisasi.
     // (Takes the current date as the starting point.
     // Using Date.UTC prevents local browser timezone shifting during initialization.)
-    const baseDate = new Date(Date.UTC(2025, 9, 12));
+    const baseDate = new Date(Date.UTC(2025, 10, 2));
 
     // Tentukan format nama hari: 'short' (Sen) untuk layar kecil, 'long' (Senin) untuk layar besar
     // (Determine day name format: 'short' (Mon) for small screens, 'long' (Monday) for large screens)
@@ -1826,8 +2252,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Merender kisi kalender untuk bulan dan tahun yang saat ini dipilih.
-   * (Renders the calendar grid for the currently selected month and year.)
+   * @description Merender kisi kalender untuk bulan dan tahun yang saat ini dipilih.
+   *              (Renders the calendar grid for the currently selected month and year.)
    */
   function renderCalendar() {
     const currentYear = currentDate.getFullYear();
@@ -1982,21 +2408,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- 6. PANGGILAN INISIALISASI (INITIALIZATION CALLS) ---
   // ===========================================================================================================
 
-  // Set mode gelap atau mode terang
-  // (Set dark mode or light mode)
-  applyDarkMode();
-
   // Inisialisasi dropdown kontrol (bahasa dan zona waktu)
   // (Initialize control dropdowns (language and timezone))
   populateControls();
-
-  // Set judul halaman
-  // (Set page title)
-  updatePageTitle();
-
-  // Set label antarmuka (UI)
-  // (Set interface labels (UI))
-  translateUILabels();
 
   // Render tampilan awal kalender dan jam
   // (Render initial calendar and clock display)
@@ -2006,4 +2420,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Perbarui kalender setiap menit (untuk menangkap perubahan 'today' di tengah malam)
   // (Update calendar every minute (to catch 'today' change at midnight))
   setInterval(renderCalendar, 60000);
+
+  // Set judul halaman
+  // (Set page title)
+  updatePageTitle();
+
+  // Set label antarmuka (UI)
+  // (Set interface labels (UI))
+  translateUILabels();
+
+  // Set mode gelap atau mode terang
+  // (Set dark mode or light mode)
+  applyDarkMode();
 });
